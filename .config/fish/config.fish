@@ -28,13 +28,7 @@ bind \cs 'clear; commandline -f repaint'
 # Variables
 set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -gx EDITOR nvim
-set -gx NINJA_STATUS "[%s/%t %p]"
-set -gx LSAN_OPTIONS "print_suppressions=false:suppressions=/home/nathan/dev/blender/lsan-suppressions.txt"
 set -gx PATH "$PATH:$HOME/.local/bin"
-
-set -gx LUA_PATH "/usr/share/lua/5.4/?.lua;/usr/share/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;/home/nathan/.luarocks/share/lua/5.4/?.lua;/home/nathan/.luarocks/share/lua/5.4/?/init.lua"
-set -gx LUA_CPATH "/usr/lib/lua/5.4/?.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/nathan/.luarocks/lib/lua/5.4/?.so"
-set -gx PATH "$PATH:$HOME/.luarocks/bin"
 
 # Functions
 

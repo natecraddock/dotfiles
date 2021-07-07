@@ -27,7 +27,6 @@ abbr --add v nvim
 bind \cs 'clear; commandline -f repaint'
 
 # Variables
-set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
 set -gx EDITOR nvim
 set -gx PATH "$PATH:$HOME/.local/bin"
 

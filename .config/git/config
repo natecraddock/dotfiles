@@ -1,0 +1,19 @@
+[user]
+	email = nzcraddock@gmail.com
+	name = Nathan Craddock
+
+[core]
+	editor = nvim
+
+[alias]
+	can = commit --amend --no-edit
+	undo = reset --hard HEAD~1
+
+[init]
+	defaultBranch = master
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

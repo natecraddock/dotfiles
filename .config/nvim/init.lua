@@ -69,7 +69,7 @@ require("packer").startup(function(use)
   use "folke/lua-dev.nvim"
 
   -- personal plugins
-  use "~/dev/nvim-find"
+  use "natecraddock/nvim-find"
 end)
 
 

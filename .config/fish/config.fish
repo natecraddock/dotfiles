@@ -19,8 +19,9 @@ alias up="cd .."
 alias dots="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 
 # Abbreviations
-abbr --add v nvim
+abbr --add d dots
 abbr --add t tmux
+abbr --add v nvim
 
 # Bindings
 bind \cs 'clear; commandline -f repaint'
@@ -37,7 +38,6 @@ set -gx LUA_CPATH "/usr/lib/lua/5.4/?.so;/usr/lib/lua/5.4/loadall.so;./?.so;/hom
 set -gx PATH "$PATH:$HOME/.luarocks/bin"
 
 # Functions
-
 function mkdirc -a path --description "Create and enter a new directory"
     mkdir $path
     cd $path

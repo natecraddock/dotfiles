@@ -28,7 +28,7 @@ bind \cs 'clear; commandline -f repaint'
 
 # Variables
 set -gx EDITOR nvim
-set -gx PATH "$PATH:$HOME/.local/bin"
+fish_add_path $HOME/.local/bin
 
 # Functions
 function mkdirc -a path --description "Create and enter a new directory"

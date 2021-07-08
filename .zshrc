@@ -24,6 +24,7 @@ source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 alias ls='ls --color=auto'
 alias rm='rm -I'
+alias dots="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
 
 setopt histignorealldups
 

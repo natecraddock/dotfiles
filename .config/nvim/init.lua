@@ -41,6 +41,7 @@ require("packer").startup(function(use)
   -- appearance related
   use "morhetz/gruvbox"
   use "hoob3rt/lualine.nvim"
+  use { "kyazdani42/nvim-tree.lua", opt = true, cmd = { "NvimTreeToggle", "NvimTreeFindFile" } }
   use "nvim-treesitter/nvim-treesitter"
   use "ziglang/zig.vim"
   use "psliwka/vim-smoothie"
@@ -152,6 +153,14 @@ require("lualine").setup({
   },
 })
 
+-- nvim tree
+g.nvim_tree_auto_close = 1
+g.nvim_tree_indent_markers = 1
+g.nvim_tree_add_trailing = 1
+g.nvim_tree_group_empty = 1
+g.nvim_tree_disable_window_picker = 1
+-- g.nvim_tree_quit_on_open = 1
+
 -- treesitter syntax highlight
 require("nvim-treesitter.configs").setup({
   highlight = {
@@ -212,6 +221,9 @@ cmd([[autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r
 cmd([[autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None]])
 opt.autoread = true
 
+local cfg = require("nvim-find.config")
+cfg.files.ignore = {"node_modules", "__pycache__", "*.png", "*.jpg", "*.gif", "*.svg", "*.dat", "*.ico"}
+cfg.search.start_closed = true
 
 --
 -- mappings
@@ -236,6 +248,8 @@ cmd("autocmd FileType help noremap <buffer> <nowait> q :q<cr>")
 local find = require("nvim-find.defaults")
 map("n", "<c-p>", find.files)
 map("n", "<leader>b", find.buffers)
+
+map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
 map("n", "0", "^")
 map("n", "^", "0")

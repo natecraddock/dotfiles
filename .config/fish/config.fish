@@ -44,3 +44,6 @@ function mkdirc -a path --description "Create and enter a new directory"
     mkdir $path
     cd $path
 end
+
+# Starship must be at the end
+starship init fish | source

@@ -1,0 +1,64 @@
+# extra space is nice
+add_newline = true
+
+# show my name
+[username]
+show_always = false
+format = "[$user]($style) "
+
+# git
+[git_branch]
+symbol = " "
+format = "on [$branch]($style) "
+
+[git_state]
+format = "[$state( $progress_current/$progress_total)]($style) "
+rebase = "rebase"
+merge = "merge"
+revert = "revert"
+cherry_pick = "cherry-pick"
+bisect = "bisect"
+
+# [git_metrics]
+# disabled = false
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+style = "red"
+ahead = ""
+behind = ""
+diverged = ""
+
+# directory styling
+[directory]
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+
+# last command time
+[cmd_duration]
+min_time = 5000
+
+# disable useless info
+[cmake]
+disabled = true
+
+[java]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[python]
+disabled = true
+
+[rust]
+disabled = true
+
+[zig]
+disabled = true
+
+[lua]
+disabled = true

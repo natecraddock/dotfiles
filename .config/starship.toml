@@ -4,10 +4,15 @@ add_newline = true
 # show my name
 [username]
 show_always = false
-format = "[$user]($style) "
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+format = "@[$hostname]($style) "
 
 # git
 [git_branch]
+style = "bold green"
 symbol = " "
 format = "on [$branch]($style) "
 
@@ -19,8 +24,8 @@ revert = "revert"
 cherry_pick = "cherry-pick"
 bisect = "bisect"
 
-# [git_metrics]
-# disabled = false
+[git_metrics]
+disabled = false
 
 [git_status]
 format = "([$all_status$ahead_behind]($style) )"
@@ -33,6 +38,7 @@ diverged = ""
 [directory]
 truncate_to_repo = false
 fish_style_pwd_dir_length = 1
+style = "bold blue"
 
 # last command time
 [cmd_duration]

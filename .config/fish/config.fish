@@ -17,6 +17,9 @@ alias rm="rm -I"
 alias ls="ls --color -h --group-directories-first"
 alias up="cd .."
 alias dots="git --git-dir=$HOME/.dots/ --work-tree=$HOME"
+alias lstar="tar -ztvf"
+alias untar="tar -zxvf"
+alias mktar="tar -cvzf"
 
 # Abbreviations
 abbr --add d dots

@@ -58,8 +58,10 @@ require("packer").startup(function(use)
   use "tpope/vim-commentary"
   use "tommcdo/vim-exchange"
   use "farmergreg/vim-lastplace"
-  use "ggandor/lightspeed.nvim"
+  -- use "ggandor/lightspeed.nvim"
+  use "justinmk/vim-sneak"
   use "christoomey/vim-tmux-navigator"
+  use "tversteeg/registers.nvim"
 
   -- lsp and completion
   use "neovim/nvim-lspconfig"
@@ -222,8 +224,16 @@ cmd([[autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on d
 opt.autoread = true
 
 local cfg = require("nvim-find.config")
-cfg.files.ignore = {"node_modules", "__pycache__", "*.png", "*.jpg", "*.gif", "*.svg", "*.dat", "*.ico"}
-cfg.search.start_closed = true
+cfg.files.ignore = {"node_modules/*", "__pycache__/*", "*.png", "*.jpg", "*.gif", "*.svg", "*.dat", "*.ico"}
+
+-- vim-sneak
+g["sneak#label"] = 1
+g["sneak#s_next"] = 1
+
+map("n", "f", "<plug>Sneak_f", { noremap = false })
+map("n", "F", "<plug>Sneak_F", { noremap = false })
+map("n", "t", "<plug>Sneak_t", { noremap = false })
+map("n", "T", "<plug>Sneak_T", { noremap = false })
 
 --
 -- mappings
@@ -248,6 +258,9 @@ cmd("autocmd FileType help noremap <buffer> <nowait> q :q<cr>")
 local find = require("nvim-find.defaults")
 map("n", "<c-p>", find.files)
 map("n", "<leader>b", find.buffers)
+map("n", "<leader>f", find.search_at_cursor)
+map("n", "<leader>F", find.search)
+map("v", "<leader>f", find.search)
 
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
@@ -263,6 +276,9 @@ map("v", "<a-k>", "[egv=gv", { noremap = false })
 
 map("n", "gr", "<cmd>TroubleToggle lsp_references<cr>")
 map("n", "<leader>x", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>")
+
+-- reselect pasted text
+map("n", "gp", "`[v`]")
 
 
 --
@@ -299,11 +315,16 @@ local function on_attach(_, buffer)
   set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", options)
 
   -- autocommands
-  vim.cmd([[ augroup dochighlightlsp ]])
-  vim.cmd([[   autocmd!]])
-  vim.cmd([[   autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight() ]])
-  vim.cmd([[   autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references() ]])
-  vim.cmd([[ augroup END ]])
+  cmd([[
+  augroup lsp
+    autocmd!
+    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+
+    autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+  augroup END
+  ]])
 end
 
 -- symbols in completion popups
@@ -366,6 +387,9 @@ local servers = {
 for _, server in ipairs(servers) do
   local settings = {
     on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
   }
   if server.settings then
     settings = server.settings

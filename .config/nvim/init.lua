@@ -110,6 +110,7 @@ opt.termguicolors = true
 -- line numbers and signcolumn
 opt.number = true
 opt.signcolumn = "number"
+opt.cursorline = true
 
 -- set window title in supported terminals
 opt.title = true
@@ -229,6 +230,7 @@ cfg.files.ignore = {"node_modules/*", "__pycache__/*", "*.png", "*.jpg", "*.gif"
 -- vim-sneak
 g["sneak#label"] = 1
 g["sneak#s_next"] = 1
+g["sneak#absolute_dir"] = 1
 
 map("n", "f", "<plug>Sneak_f", { noremap = false })
 map("n", "F", "<plug>Sneak_F", { noremap = false })
@@ -247,8 +249,8 @@ g.mapleader = " "
 map("n", "j", "gj")
 map("n", "k", "gk")
 
--- clear highlights with ?
-map("n", "?", ":noh<cr>")
+-- clear highlights
+map("n", "<leader>/", ":noh<cr>")
 
 -- disable annoying Ex mode
 map("n", "Q", "<nop>")
@@ -280,6 +282,15 @@ map("n", "<leader>x", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>")
 -- reselect pasted text
 map("n", "gp", "`[v`]")
 
+map("n", "n", "'Nn'[v:searchforward] . 'zz'", { expr = true })
+map("n", "N", "'nN'[v:searchforward] . 'zz'", { expr = true })
+
+-- undo breakpoints when inserting
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", "!", "!<c-g>u")
+map("i", "?", "?<c-g>u")
+map("i", ";", ";<c-g>u")
 
 --
 -- language server configuration

@@ -58,7 +58,10 @@ disabled = true
 disabled = true
 
 [python]
-disabled = true
+format = "in [($virtualenv)]($style)"
+detect_extensions = []
+detect_files = []
+disabled = false
 
 [rust]
 disabled = true

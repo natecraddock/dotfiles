@@ -39,7 +39,8 @@ require("packer").startup(function(use)
   use "wbthomason/packer.nvim"
 
   -- appearance related
-  use "morhetz/gruvbox"
+  -- use "morhetz/gruvbox"
+  use "gruvbox-community/gruvbox"
   use "hoob3rt/lualine.nvim"
   use { "kyazdani42/nvim-tree.lua", opt = true, cmd = { "NvimTreeToggle", "NvimTreeFindFile" } }
   use "nvim-treesitter/nvim-treesitter"
@@ -49,6 +50,7 @@ require("packer").startup(function(use)
   use "kyazdani42/nvim-web-devicons"
   use { "folke/trouble.nvim", requires = {"nvim-lua/plenary.nvim"}, config = function() require("trouble").setup() end }
   use "folke/todo-comments.nvim"
+  use { "lewis6991/gitsigns.nvim", config = function() require("gitsigns").setup() end }
 
   -- editing
   use "tpope/vim-sleuth"
@@ -107,9 +109,15 @@ cmd "colorscheme gruvbox"
 opt.background = "dark"
 opt.termguicolors = true
 
+-- g.gruvbox_contrast_dark = "soft"
+g.gruvbox_sign_column = "bg0"
+g.gruvbox_invert_selection = 0
+-- g.gruvbox_improved_strings = 1
+
 -- line numbers and signcolumn
 opt.number = true
-opt.signcolumn = "number"
+opt.signcolumn = "yes"
+opt.cursorline = true
 
 -- set window title in supported terminals
 opt.title = true
@@ -229,6 +237,7 @@ cfg.files.ignore = {"node_modules/*", "__pycache__/*", "*.png", "*.jpg", "*.gif"
 -- vim-sneak
 g["sneak#label"] = 1
 g["sneak#s_next"] = 1
+g["sneak#absolute_dir"] = 1
 
 map("n", "f", "<plug>Sneak_f", { noremap = false })
 map("n", "F", "<plug>Sneak_F", { noremap = false })
@@ -247,8 +256,8 @@ g.mapleader = " "
 map("n", "j", "gj")
 map("n", "k", "gk")
 
--- clear highlights with ?
-map("n", "?", ":noh<cr>")
+-- clear highlights
+map("n", "<leader>/", ":noh<cr>")
 
 -- disable annoying Ex mode
 map("n", "Q", "<nop>")
@@ -280,6 +289,15 @@ map("n", "<leader>x", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>")
 -- reselect pasted text
 map("n", "gp", "`[v`]")
 
+map("n", "n", "'Nn'[v:searchforward] . 'zz'", { expr = true })
+map("n", "N", "'nN'[v:searchforward] . 'zz'", { expr = true })
+
+-- undo breakpoints when inserting
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", "!", "!<c-g>u")
+map("i", "?", "?<c-g>u")
+map("i", ";", ";<c-g>u")
 
 --
 -- language server configuration

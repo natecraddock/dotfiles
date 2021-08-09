@@ -13,7 +13,7 @@ set tide_pwd_color_dirs 458588
 set tide_pwd_color_truncated_dirs 689d6a
 
 # Aliases
-alias rm="rm -I"
+alias rm="rm -iv"
 alias ls="ls --color -h --group-directories-first"
 alias up="cd .."
 alias dots="git --git-dir=$HOME/.dots/ --work-tree=$HOME"

@@ -50,7 +50,7 @@ require("packer").startup(function(use)
   use "kyazdani42/nvim-web-devicons"
   use { "folke/trouble.nvim", requires = {"nvim-lua/plenary.nvim"}, config = function() require("trouble").setup() end }
   use "folke/todo-comments.nvim"
-  use { "lewis6991/gitsigns.nvim", config = function() require("gitsigns").setup() end }
+  use { "lewis6991/gitsigns.nvim" }
 
   -- editing
   use "tpope/vim-sleuth"
@@ -190,6 +190,15 @@ require("todo-comments").setup({
   }
 })
 
+-- gitsigns
+require("gitsigns").setup({
+  signs = {
+    add = { text = "┃" },
+    change = { hl = 'GruvboxBlueSign', text = "┃" },
+    delete = { text = "━" },
+    changedelete = { hl = "GruvboxBlueSign" },
+  },
+})
 
 --
 -- editing

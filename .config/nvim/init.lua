@@ -112,6 +112,7 @@ opt.termguicolors = true
 -- g.gruvbox_contrast_dark = "soft"
 g.gruvbox_sign_column = "bg0"
 g.gruvbox_invert_selection = 0
+g.gruvbox_italic = 1
 -- g.gruvbox_improved_strings = 1
 
 -- line numbers and signcolumn

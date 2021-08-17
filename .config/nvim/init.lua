@@ -23,6 +23,10 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+-- set leader key to space
+map("", "<space>", "<nop>")
+g.mapleader = " "
+
 --
 -- plugins
 --
@@ -69,6 +73,7 @@ require("packer").startup(function(use)
   use "neovim/nvim-lspconfig"
   use "hrsh7th/nvim-compe"
   use "folke/lsp-colors.nvim"
+  use "jose-elias-alvarez/null-ls.nvim"
 
   -- plugin development
   use "folke/lua-dev.nvim"
@@ -170,7 +175,9 @@ g.nvim_tree_indent_markers = 1
 g.nvim_tree_add_trailing = 1
 g.nvim_tree_group_empty = 1
 g.nvim_tree_disable_window_picker = 1
--- g.nvim_tree_quit_on_open = 1
+g.nvim_tree_quit_on_open = 1
+
+map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
 -- treesitter syntax highlight
 require("nvim-treesitter.configs").setup({
@@ -180,6 +187,7 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- todo comments
+-- TODO: remove signs?
 require("todo-comments").setup({
   colors = {
     info = "#83a598",
@@ -209,6 +217,9 @@ opt.tabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
 opt.smartindent = true
+
+-- join with single rather than double space
+opt.joinspaces = false
 
 -- highlight searches and use smart search casing
 opt.inccommand = "nosplit"
@@ -254,13 +265,12 @@ map("n", "F", "<plug>Sneak_F", { noremap = false })
 map("n", "t", "<plug>Sneak_t", { noremap = false })
 map("n", "T", "<plug>Sneak_T", { noremap = false })
 
+-- spellchecking
+opt.spelllang = "en_us"
+
 --
 -- mappings
 --
-
--- set leader key to space
-map("", "<space>", "<nop>")
-g.mapleader = " "
 
 -- Allow moving through wrapped lines like a normal person
 map("n", "j", "gj")
@@ -280,8 +290,6 @@ map("n", "<leader>b", find.buffers)
 map("n", "<leader>f", find.search_at_cursor)
 map("n", "<leader>F", find.search)
 map("v", "<leader>f", find.search)
-
-map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
 map("n", "0", "^")
 map("n", "^", "0")
@@ -309,6 +317,9 @@ map("i", "!", "!<c-g>u")
 map("i", "?", "?<c-g>u")
 map("i", ";", ";<c-g>u")
 
+map("n", "<leader>lf", vim.lsp.buf.formatting)
+map("v", "<leader>lf", vim.lsp.buf.range_formatting)
+
 --
 -- language server configuration
 --
@@ -328,7 +339,7 @@ cmd([[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWa
 cmd([[sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl=]])
 cmd([[sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=]])
 
-local function on_attach(_, buffer)
+local function on_attach(client, buffer)
   -- helpers
   local function set_keymap(...) vim.api.nvim_buf_set_keymap(buffer, ...) end
 
@@ -349,10 +360,11 @@ local function on_attach(_, buffer)
     autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-
-    autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
   augroup END
   ]])
+
+  -- disable LSP formatting
+  client.resolved_capabilities.document_formatting = false
 end
 
 -- symbols in completion popups
@@ -391,7 +403,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
-
 -- enabled Servers
 local luadev = require("lua-dev").setup({
   lspconfig = {
@@ -426,6 +437,16 @@ for _, server in ipairs(servers) do
 
   lsp_config[server.name].setup(settings)
 end
+
+local null_ls = require("null-ls")
+null_ls.config({
+  sources = {
+    null_ls.builtins.formatting.clang_format,
+  },
+})
+
+-- LSP formatting
+lsp_config["null-ls"].setup({})
 
 --
 -- compe autocomplete

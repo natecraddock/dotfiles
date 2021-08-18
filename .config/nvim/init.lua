@@ -43,17 +43,18 @@ require("packer").startup(function(use)
   use "wbthomason/packer.nvim"
 
   -- appearance related
-  -- use "morhetz/gruvbox"
   use "gruvbox-community/gruvbox"
   use "hoob3rt/lualine.nvim"
   use { "kyazdani42/nvim-tree.lua", opt = true, cmd = { "NvimTreeToggle", "NvimTreeFindFile" } }
-  use "nvim-treesitter/nvim-treesitter"
+  use { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = ":TSUpdate" }
   use "ziglang/zig.vim"
   use "psliwka/vim-smoothie"
   use { "norcalli/nvim-colorizer.lua", config = function() require("colorizer").setup() end }
   use "kyazdani42/nvim-web-devicons"
   use { "folke/trouble.nvim", requires = {"nvim-lua/plenary.nvim"}, config = function() require("trouble").setup() end }
   use "folke/todo-comments.nvim"
+  use { "folke/zen-mode.nvim", config = function() require("zen-mode").setup() end }
+  use { "folke/twilight.nvim", config = function() require("zen-mode").setup() end }
   use { "lewis6991/gitsigns.nvim" }
 
   -- editing
@@ -64,7 +65,6 @@ require("packer").startup(function(use)
   use "tpope/vim-commentary"
   use "tommcdo/vim-exchange"
   use "farmergreg/vim-lastplace"
-  -- use "ggandor/lightspeed.nvim"
   use "justinmk/vim-sneak"
   use "christoomey/vim-tmux-navigator"
   use "tversteeg/registers.nvim"

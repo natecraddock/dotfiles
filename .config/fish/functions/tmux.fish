@@ -1,9 +1,9 @@
 function select-session
-    set -l sessions (command tmux ls)
+    set sessions (command tmux ls)
     if test $status -ne 0
         return 1
     else
-        set -l selected (string join \n $sessions | fzf $argv --reverse)
+        set selected (string join \n $sessions | fzf $argv --reverse)
         if test $status -ne 0
             # fzf canceled
             return 1
@@ -29,13 +29,13 @@ function tmux -a command -d "a tmux wrapper with superpowers"
 
         # select from existing sessions with fzf
         case a attach
-            set -l session (select-session -0 -1)
+            set session (select-session -0)
             if test $status -eq 0
                 command tmux a -t $session
             end
 
         case k kill kill-session
-            set -l session (select-session -0)
+            set session (select-session -0)
             if test $status -eq 0
                 command tmux kill-session -t $session
                 echo "killed tmux session \"$session\""

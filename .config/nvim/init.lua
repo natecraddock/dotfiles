@@ -312,21 +312,6 @@ map("n", "<leader>lf", vim.lsp.buf.formatting)
 map("v", "<leader>lf", vim.lsp.buf.range_formatting)
 
 --
--- filetype specific settings
---
-
--- git commit messages
-function _G.gitcommit_filetype()
-  vim.wo.spell = true
-  vim.bo.indentexpr = ""
-  vim.bo.expandtab = true
-  vim.bo.shiftwidth = 4
-  vim.bo.tabstop = 4
-  vim.bo.textwidth = 72
-end
-cmd([[autocmd FileType gitcommit call v:lua.gitcommit_filetype()]])
-
---
 -- configs in separate files
 --
 

@@ -3,25 +3,12 @@
 --
 
 local utils = require("utils")
+local map = utils.map
 
 -- expose useful tables
 local g = vim.g
 local opt = vim.opt
 local cmd = vim.cmd
-
-local function map(mode, lhs, rhs, opts)
-  -- until there is an api for setting keymaps directly to lua functions
-  -- we will store functions in a table and refer to them by integer keys.
-
-  if type(rhs) == "function" then
-    local map_num = utils.register_mapping(rhs)
-    rhs = string.format("<cmd>lua require('utils').run_mapping(%s)<cr>", map_num)
-  end
-
-  local options = { noremap = true, silent = true }
-  if opts then options = vim.tbl_extend("force", options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
 
 -- set leader key to space
 map("", "<space>", "<nop>")
@@ -57,6 +44,10 @@ require("packer").startup(function(use)
   use { "folke/twilight.nvim", config = function() require("zen-mode").setup() end }
   use { "lewis6991/gitsigns.nvim" }
 
+  -- telescope
+  use "nvim-telescope/telescope.nvim"
+  use "nvim-telescope/telescope-fzy-native.nvim"
+
   -- editing
   use "tpope/vim-sleuth"
   use "tpope/vim-surround"
@@ -79,7 +70,7 @@ require("packer").startup(function(use)
   use "folke/lua-dev.nvim"
 
   -- personal plugins
-  use "~/dev/nvim-find"
+  -- use "~/dev/nvim-find"
 end)
 
 
@@ -208,6 +199,9 @@ require("gitsigns").setup({
   },
 })
 
+-- telescope
+require("plugins.telescope")
+
 --
 -- editing
 --
@@ -252,8 +246,8 @@ cmd([[autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r
 cmd([[autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None]])
 opt.autoread = true
 
-local cfg = require("nvim-find.config")
-cfg.files.ignore = {"node_modules/*", "__pycache__/*", "*.png", "*.jpg", "*.gif", "*.svg", "*.dat", "*.ico"}
+-- local cfg = require("nvim-find.config")
+-- cfg.files.ignore = {"node_modules/*", "__pycache__/*", "*.png", "*.jpg", "*.gif", "*.svg", "*.dat", "*.ico"}
 
 -- vim-sneak
 g["sneak#label"] = 1
@@ -284,12 +278,12 @@ map("n", "Q", "<nop>")
 
 cmd("autocmd FileType help noremap <buffer> <nowait> q :q<cr>")
 
-local find = require("nvim-find.defaults")
-map("n", "<c-p>", find.files)
-map("n", "<leader>b", find.buffers)
-map("n", "<leader>f", find.search_at_cursor)
-map("n", "<leader>F", find.search)
-map("v", "<leader>f", find.search)
+-- local find = require("nvim-find.defaults")
+-- map("n", "<c-p>", find.files)
+-- map("n", "<leader>b", find.buffers)
+-- map("n", "<leader>f", find.search_at_cursor)
+-- map("n", "<leader>F", find.search)
+-- map("v", "<leader>f", find.search)
 
 map("n", "0", "^")
 map("n", "^", "0")
@@ -406,7 +400,14 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- enabled Servers
 local luadev = require("lua-dev").setup({
   lspconfig = {
-    cmd = {"lua-language-server"},
+    cmd = {"lua-language-server-custom"},
+    settings = {
+      Lua = {
+        completion = {
+          showWord = "Fallback",
+        },
+      },
+    },
   },
 })
 

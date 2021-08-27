@@ -5,6 +5,7 @@ add_newline = true
 [username]
 show_always = false
 format = "[$user]($style)"
+style_user = "bold blue"
 
 [hostname]
 ssh_only = true

@@ -59,7 +59,7 @@ disabled = true
 disabled = true
 
 [python]
-format = "in [($virtualenv)]($style)"
+format = "in [($virtualenv)]($style) "
 detect_extensions = []
 detect_files = []
 disabled = false

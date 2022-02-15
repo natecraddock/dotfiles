@@ -1,0 +1,88 @@
+# extra space is nice
+add_newline = true
+
+[character]
+format = "$symbol "
+success_symbol = "[❯](blue)"
+vicmd_symbol = "[❮](black)"
+error_symbol = "[❯](red)"
+
+# show my name
+[username]
+show_always = false
+format = "[$user]($style)"
+style_user = "bold blue"
+
+[hostname]
+ssh_only = true
+format = "@[$hostname]($style) "
+
+# git
+[git_branch]
+style = "bold green"
+symbol = " "
+format = "on [$branch]($style) "
+
+[git_state]
+format = "[$state( $progress_current/$progress_total)]($style) "
+rebase = "rebase"
+merge = "merge"
+revert = "revert"
+cherry_pick = "cherry-pick"
+bisect = "bisect"
+
+[git_metrics]
+disabled = true
+
+[git_status]
+disabled = false
+format = "([$all_status$ahead_behind]($style) )"
+style = "red"
+ahead = ""
+behind = ""
+diverged = ""
+
+# directory styling
+[directory]
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+style = "bold blue"
+
+# last command time
+[cmd_duration]
+min_time = 5000
+style = "cyan"
+
+# disable useless info
+[cmake]
+disabled = true
+
+[java]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[python]
+format = "in [($virtualenv)]($style) "
+detect_extensions = []
+detect_files = []
+disabled = false
+
+[rust]
+disabled = true
+
+[zig]
+disabled = true
+
+[lua]
+disabled = true
+
+[golang]
+disabled = true
+
+[scala]
+disabled = true

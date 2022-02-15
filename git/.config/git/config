@@ -1,0 +1,36 @@
+[user]
+	email = nzcraddock@gmail.com
+	name = Nathan Craddock
+	signingkey = 447F273B984F1DC36ADD86E9ABE41A31B52E9DA7
+
+[core]
+	editor = nvim
+	excludesfile = ~/.config/git/ignore
+
+[alias]
+	c = commit
+	sw = switch
+	st = status
+	can = commit --amend --no-edit
+	undo = reset HEAD~1 --mixed
+
+[init]
+	defaultBranch = master
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[commit]
+	template = ~/.config/git/message
+	gpgsign = true
+
+[diff]
+	algorithm = histogram
+	submodule = log
+[status]
+	submodulesummary = 0
+[tag]
+	gpgsign = true

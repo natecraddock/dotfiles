@@ -1,0 +1,4 @@
+.vscode/
+*.swp
+compile_commands.json
+.nvim/

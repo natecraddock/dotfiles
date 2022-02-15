@@ -1,0 +1,47 @@
+###########################################################
+# Kitty Configuration File
+###########################################################
+
+# Font
+# font_family MesloLGSDZ Nerd Font
+# font_family Cascadia Code
+# font_family JetBrains Mono
+font_family JetBrainsMono Nerd Font
+bold_font auto
+italic_font auto
+bold_italic_font auto
+
+# font_size 12
+
+# No bell
+enable_audio_bell no
+
+# Scrollback
+scrollback_lines 50000
+
+# background_opacity 0.92
+
+# URL Opening
+url_style single
+open_url_modifiers ctrl
+
+# Selection
+strip_trailing_spaces always
+rectangle_select_modifiers ctrl+shift
+
+# Window
+window_padding_width 1
+remember_window_size no
+initial_window_width 960
+initial_window_height 530
+
+# Shell Integration
+shell_integration disabled
+
+# No need to check for kitty updates
+update_check_interval 0
+
+# BEGIN_KITTY_THEME
+# subtle
+include current-theme.conf
+# END_KITTY_THEME

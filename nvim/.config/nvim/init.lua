@@ -44,6 +44,15 @@ require("packer").startup(function(use)
         auto_close = true,
         hijack_cursor = true,
         update_cwd = true,
+
+        actions = {
+          open_file = {
+            quit_on_open = true,
+            window_picker = {
+              enable = false,
+            }
+          }
+        },
       })
     end,
   }
@@ -242,8 +251,6 @@ cmd("autocmd TextYankPost * silent! lua vim.highlight.on_yank({ on_visual = fals
 -- nvim tree
 g.nvim_tree_add_trailing = 1
 g.nvim_tree_group_empty = 1
-g.nvim_tree_disable_window_picker = 1
-g.nvim_tree_quit_on_open = 1
 
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 

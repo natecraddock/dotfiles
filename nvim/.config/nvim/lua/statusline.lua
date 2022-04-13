@@ -23,7 +23,7 @@ local function git_status()
 
   if is_head_empty then return "" end
 
-  return string.format(" %s  ", signs.head)
+  return string.format("%s  ", signs.head)
 end
 
 local function modified_status()
@@ -86,7 +86,7 @@ end
 local current_workspace = function()
   local workspaces = require("workspaces")
   local name = workspaces.name()
-  if name then return " " .. name end
+  if name then return "  " .. name end
   return ""
 end
 

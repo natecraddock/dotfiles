@@ -41,7 +41,6 @@ require("packer").startup(function(use)
     -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
       require("nvim-tree").setup({
-        auto_close = true,
         hijack_cursor = true,
         update_cwd = true,
 
@@ -80,14 +79,15 @@ require("packer").startup(function(use)
   -- telescope
   use {
     "nvim-telescope/telescope.nvim",
-    cmd = { "Telescope" },
-    keys = { "<leader>p" },
+    event = "VimEnter",
+    -- cmd = { "Telescope" },
+    -- keys = { "<leader>p" },
     module = "telescope",
     requires = {
       "~/dev/nvim/telescope-zf-native.nvim/"
     },
     config = function()
-      require("plugins.telescope")
+      require("user.telescope")
     end,
   }
 
@@ -108,6 +108,10 @@ require("packer").startup(function(use)
   -- plugin development
   use "folke/lua-dev.nvim"
 
+  use "ratfactor/zf.vim"
+
+  use "mvpopuk/inspired-github.vim"
+
   use "~/dev/nvim/subtle.nvim/"
 
   use {
@@ -119,6 +123,9 @@ require("packer").startup(function(use)
           open_pre = {
             -- save current session state if currently recording
             "SessionsStop",
+
+            -- stop any active lsp servers
+            "LspStop",
 
             -- delete all buffers (does not save changes)
             "silent %bdelete!",
@@ -152,6 +159,8 @@ end)
 --
 -- core behavior
 --
+
+vim.g.python3_host_prog = "python"
 
 -- disable swapfiles
 opt.swapfile = false
@@ -237,6 +246,8 @@ opt.title = true
 opt.splitbelow = true
 opt.splitright = true
 
+opt.equalalways = false
+
 -- line wrapping and scrolling
 opt.wrap = false
 opt.scrolloff = 4
@@ -309,6 +320,8 @@ map("t", "<c-w>", "<c-\\><c-n><c-w>")
 -- normal mode in the terminal buffer (not commonly needed)
 map("t", "<c-q>", "<c-\\><c-n>")
 
+opt.fillchars:append({ eob = " " })
+
 --
 -- editing
 --
@@ -356,6 +369,9 @@ map("n", "T", "<plug>Sneak_T", { noremap = false })
 
 -- spellchecking
 opt.spelllang = "en_us"
+
+-- disable redraw during macros
+opt.lazyredraw = false
 
 --
 -- mappings
@@ -433,6 +449,10 @@ map("i", "<c-bs>", "<c-w>")
 map("i", "<c-h>", "<c-w>")
 map("c", "<c-bs>", "<c-w>", { noremap = false })
 map("c", "<c-h>", "<c-w>", { noremap = false })
+
+-- much more convenient to switch to last window
+map("n", "<c-w>w", "<c-w><c-p>")
+map("n", "<c-w><c-w>", "<c-w><c-p>")
 
 --
 -- configs in separate files

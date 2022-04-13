@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/home/nathan/.local/share/nvim/site/pack/packer/start/gruvbox",
     url = "https://github.com/gruvbox-community/gruvbox"
   },
+  ["inspired-github.vim"] = {
+    loaded = true,
+    path = "/home/nathan/.local/share/nvim/site/pack/packer/start/inspired-github.vim",
+    url = "https://github.com/mvpopuk/inspired-github.vim"
+  },
   ["lsp-colors.nvim"] = {
     loaded = true,
     path = "/home/nathan/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim",
@@ -111,7 +116,7 @@ _G.packer_plugins = {
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-tree.lua"] = {
-    config = { "\27LJ\2\ne\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\15auto_close\2\15update_cwd\2\18hijack_cursor\2\nsetup\14nvim-tree\frequire\0" },
+    config = { "\27LJ\2\n°\1\0\0\6\0\n\0\r6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\a\0005\4\4\0005\5\5\0=\5\6\4=\4\b\3=\3\t\2B\0\2\1K\0\1\0\factions\14open_file\1\0\0\18window_picker\1\0\1\venable\1\1\0\1\17quit_on_open\2\1\0\2\18hijack_cursor\2\15update_cwd\2\nsetup\14nvim-tree\frequire\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -160,9 +165,7 @@ _G.packer_plugins = {
     url = "/home/nathan/dev/nvim/telescope-zf-native.nvim/"
   },
   ["telescope.nvim"] = {
-    commands = { "Telescope" },
-    config = { "\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.telescope\frequire\0" },
-    keys = { { "", "<leader>p" } },
+    config = { "\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19user.telescope\frequire\0" },
     loaded = false,
     needs_bufread = true,
     only_cond = false,
@@ -224,10 +227,15 @@ _G.packer_plugins = {
     url = "https://github.com/tpope/vim-unimpaired"
   },
   ["workspaces.nvim"] = {
-    config = { "\27LJ\2\n/\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\16startinsert\bcmd\bvimº\1\1\2\6\0\n\0\0206\2\0\0'\4\1\0B\2\2\0029\2\2\2+\4\0\0005\5\3\0B\2\3\2\14\0\2\0X\2\n€6\2\0\0'\4\4\0B\2\2\0029\2\5\0025\4\6\0B\2\2\0016\2\a\0009\2\b\0023\4\t\0B\2\2\1K\0\1\0\0\rschedule\bvim\1\0\1\17initial_mode\vinsert\15find_files\22telescope.builtin\1\0\1\vsilent\2\tload\rsessions\frequire™\1\1\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0005\3\4\0005\4\3\0=\4\5\0034\4\3\0003\5\6\0>\5\1\4=\4\a\3=\3\t\2B\0\2\1K\0\1\0\nhooks\1\0\0\topen\0\ropen_pre\1\0\0\1\3\0\0\17SessionsStop\21silent %bdelete!\nsetup\15workspaces\frequire\0" },
+    config = { "\27LJ\2\n/\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\16startinsert\bcmd\bvimº\1\1\2\6\0\n\0\0206\2\0\0'\4\1\0B\2\2\0029\2\2\2+\4\0\0005\5\3\0B\2\3\2\14\0\2\0X\2\n€6\2\0\0'\4\4\0B\2\2\0029\2\5\0025\4\6\0B\2\2\0016\2\a\0009\2\b\0023\4\t\0B\2\2\1K\0\1\0\0\rschedule\bvim\1\0\1\17initial_mode\vinsert\15find_files\22telescope.builtin\1\0\1\vsilent\2\tload\rsessions\frequire¡\1\1\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0005\3\4\0005\4\3\0=\4\5\0034\4\3\0003\5\6\0>\5\1\4=\4\a\3=\3\t\2B\0\2\1K\0\1\0\nhooks\1\0\0\topen\0\ropen_pre\1\0\0\1\4\0\0\17SessionsStop\fLspStop\21silent %bdelete!\nsetup\15workspaces\frequire\0" },
     loaded = true,
     path = "/home/nathan/.local/share/nvim/site/pack/packer/start/workspaces.nvim",
     url = "/home/nathan/dev/nvim/workspaces.nvim/"
+  },
+  ["zf.vim"] = {
+    loaded = true,
+    path = "/home/nathan/.local/share/nvim/site/pack/packer/start/zf.vim",
+    url = "https://github.com/ratfactor/zf.vim"
   },
   ["zig.vim"] = {
     loaded = true,
@@ -265,35 +273,29 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
-time([[Config for nvim-colorizer.lua]], false)
 -- Config for: workspaces.nvim
 time([[Config for workspaces.nvim]], true)
-try_loadstring("\27LJ\2\n/\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\16startinsert\bcmd\bvimº\1\1\2\6\0\n\0\0206\2\0\0'\4\1\0B\2\2\0029\2\2\2+\4\0\0005\5\3\0B\2\3\2\14\0\2\0X\2\n€6\2\0\0'\4\4\0B\2\2\0029\2\5\0025\4\6\0B\2\2\0016\2\a\0009\2\b\0023\4\t\0B\2\2\1K\0\1\0\0\rschedule\bvim\1\0\1\17initial_mode\vinsert\15find_files\22telescope.builtin\1\0\1\vsilent\2\tload\rsessions\frequire™\1\1\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0005\3\4\0005\4\3\0=\4\5\0034\4\3\0003\5\6\0>\5\1\4=\4\a\3=\3\t\2B\0\2\1K\0\1\0\nhooks\1\0\0\topen\0\ropen_pre\1\0\0\1\3\0\0\17SessionsStop\21silent %bdelete!\nsetup\15workspaces\frequire\0", "config", "workspaces.nvim")
+try_loadstring("\27LJ\2\n/\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\16startinsert\bcmd\bvimº\1\1\2\6\0\n\0\0206\2\0\0'\4\1\0B\2\2\0029\2\2\2+\4\0\0005\5\3\0B\2\3\2\14\0\2\0X\2\n€6\2\0\0'\4\4\0B\2\2\0029\2\5\0025\4\6\0B\2\2\0016\2\a\0009\2\b\0023\4\t\0B\2\2\1K\0\1\0\0\rschedule\bvim\1\0\1\17initial_mode\vinsert\15find_files\22telescope.builtin\1\0\1\vsilent\2\tload\rsessions\frequire¡\1\1\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0005\3\4\0005\4\3\0=\4\5\0034\4\3\0003\5\6\0>\5\1\4=\4\a\3=\3\t\2B\0\2\1K\0\1\0\nhooks\1\0\0\topen\0\ropen_pre\1\0\0\1\4\0\0\17SessionsStop\fLspStop\21silent %bdelete!\nsetup\15workspaces\frequire\0", "config", "workspaces.nvim")
 time([[Config for workspaces.nvim]], false)
 -- Config for: sessions.nvim
 time([[Config for sessions.nvim]], true)
 try_loadstring("\27LJ\2\n\\\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\21session_filepath\18.nvim/session\nsetup\rsessions\frequire\0", "config", "sessions.nvim")
 time([[Config for sessions.nvim]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time([[Config for nvim-colorizer.lua]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Trouble lua require("packer.load")({'trouble.nvim'}, { cmd = "Trouble", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
-
--- Keymap lazy-loads
-time([[Defining lazy-load keymaps]], true)
-vim.cmd [[noremap <silent> <leader>p <cmd>lua require("packer.load")({'telescope.nvim'}, { keys = "<lt>leader>p", prefix = "" }, _G.packer_plugins)<cr>]]
-time([[Defining lazy-load keymaps]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-tree.lua'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'telescope.nvim', 'nvim-tree.lua'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

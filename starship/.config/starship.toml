@@ -86,3 +86,6 @@ disabled = true
 
 [scala]
 disabled = true
+
+[ruby]
+disabled = true

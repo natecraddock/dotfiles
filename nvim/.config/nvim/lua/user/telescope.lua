@@ -1,4 +1,4 @@
-local map = require("utils").map
+local keymap = vim.keymap
 
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
@@ -38,18 +38,20 @@ telescope.load_extension("zf-native")
 telescope.load_extension("workspaces")
 
 -- telescope mappings
-map("n", "<leader>p", ":Telescope find_files<cr>")
-map("n", "<leader>b", ":Telescope buffers<cr>")
+keymap.set("n", "<leader>p", ":Telescope find_files<cr>")
+keymap.set("n", "<leader>b", ":Telescope buffers<cr>")
 
-map("n", "<leader>F", function()
+keymap.set("n", "<leader>F", function()
   telescope_builtin.grep_string(themes.get_ivy({ initial_mode = "normal" }))
 end)
-map("n", "<leader>f", function()
+keymap.set("n", "<leader>f", function()
   telescope_builtin.live_grep(themes.get_ivy())
 end)
 
 -- tweaks
-vim.cmd[[
-" hide cursorline in prompt
-autocmd FileType TelescopePrompt set nocursorline
-]]
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "TelescopePrompt",
+  callback = function()
+    vim.opt.cursorline = false
+  end,
+})

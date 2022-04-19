@@ -69,6 +69,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["adwaita.nvim"] = {
+    loaded = true,
+    path = "/home/nathan/.local/share/nvim/site/pack/packer/start/adwaita.nvim",
+    url = "https://github.com/Mofiqul/adwaita.nvim"
+  },
   ["alpha-nvim"] = {
     loaded = true,
     path = "/home/nathan/.local/share/nvim/site/pack/packer/start/alpha-nvim",
@@ -83,11 +88,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/nathan/.local/share/nvim/site/pack/packer/start/gruvbox",
     url = "https://github.com/gruvbox-community/gruvbox"
-  },
-  ["inspired-github.vim"] = {
-    loaded = true,
-    path = "/home/nathan/.local/share/nvim/site/pack/packer/start/inspired-github.vim",
-    url = "https://github.com/mvpopuk/inspired-github.vim"
   },
   ["lsp-colors.nvim"] = {
     loaded = true,
@@ -273,6 +273,10 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time([[Config for nvim-colorizer.lua]], false)
 -- Config for: workspaces.nvim
 time([[Config for workspaces.nvim]], true)
 try_loadstring("\27LJ\2\n/\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\16startinsert\bcmd\bvimº\1\1\2\6\0\n\0\0206\2\0\0'\4\1\0B\2\2\0029\2\2\2+\4\0\0005\5\3\0B\2\3\2\14\0\2\0X\2\n€6\2\0\0'\4\4\0B\2\2\0029\2\5\0025\4\6\0B\2\2\0016\2\a\0009\2\b\0023\4\t\0B\2\2\1K\0\1\0\0\rschedule\bvim\1\0\1\17initial_mode\vinsert\15find_files\22telescope.builtin\1\0\1\vsilent\2\tload\rsessions\frequire¡\1\1\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0005\3\4\0005\4\3\0=\4\5\0034\4\3\0003\5\6\0>\5\1\4=\4\a\3=\3\t\2B\0\2\1K\0\1\0\nhooks\1\0\0\topen\0\ropen_pre\1\0\0\1\4\0\0\17SessionsStop\fLspStop\21silent %bdelete!\nsetup\15workspaces\frequire\0", "config", "workspaces.nvim")
@@ -281,10 +285,6 @@ time([[Config for workspaces.nvim]], false)
 time([[Config for sessions.nvim]], true)
 try_loadstring("\27LJ\2\n\\\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\21session_filepath\18.nvim/session\nsetup\rsessions\frequire\0", "config", "sessions.nvim")
 time([[Config for sessions.nvim]], false)
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
-time([[Config for nvim-colorizer.lua]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)

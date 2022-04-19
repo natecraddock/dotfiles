@@ -18,7 +18,7 @@ local scheme = vim.env["COLORSCHEME"]
 -- default colors if not set in env
 if scheme == nil then
 elseif scheme == "gruvbox-dark" then
-  cmd "colorscheme gruvbox"
+  cmd "colorscheme adwaita"
   opt.background = "light"
 
   colorscheme.colors = {

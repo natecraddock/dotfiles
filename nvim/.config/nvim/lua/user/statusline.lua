@@ -1,4 +1,4 @@
-local colors = require("colorscheme").colors
+local colors = require("user.colorscheme").colors
 
 local mode_map = {
   n = "NORMAL",

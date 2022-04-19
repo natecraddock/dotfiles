@@ -2,16 +2,14 @@
 -- nvim config
 --
 
-local utils = require("utils")
-local map = utils.map
-
 -- expose useful tables
 local g = vim.g
 local opt = vim.opt
-local cmd = vim.cmd
+
+local keymap = vim.keymap
 
 -- set leader key to space
-map("", "<space>", "<nop>")
+keymap.set("", "<space>", "<nop>")
 g.mapleader = " "
 
 --
@@ -38,7 +36,6 @@ require("packer").startup(function(use)
   use {
     "kyazdani42/nvim-tree.lua",
     event = "VimEnter",
-    -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
       require("nvim-tree").setup({
         hijack_cursor = true,
@@ -80,8 +77,6 @@ require("packer").startup(function(use)
   use {
     "nvim-telescope/telescope.nvim",
     event = "VimEnter",
-    -- cmd = { "Telescope" },
-    -- keys = { "<leader>p" },
     module = "telescope",
     requires = {
       "~/dev/nvim/telescope-zf-native.nvim/"
@@ -110,7 +105,7 @@ require("packer").startup(function(use)
 
   use "ratfactor/zf.vim"
 
-  use "mvpopuk/inspired-github.vim"
+  use "Mofiqul/adwaita.nvim"
 
   use "~/dev/nvim/subtle.nvim/"
 
@@ -155,6 +150,15 @@ require("packer").startup(function(use)
     end
   }
 end)
+
+-- TODO: this or farmergreg/lastplace?
+-- vim.cmd[[
+-- augroup cursor-restore
+--   autocmd!
+--   autocmd BufRead * autocmd FileType <buffer> ++once
+--     \ if &ft !~# 'commit\|rebase' && line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
+-- augroup END
+-- ]]
 
 --
 -- core behavior
@@ -218,10 +222,10 @@ dashboard.section.footer.opts.hl = "SpecialKey"
 alpha.setup(dashboard.opts)
 
 -- statusline
-require("statusline")
+require("user.statusline")
 
 -- init colorscheme and get colors
-require("colorscheme")
+require("user.colorscheme")
 
 -- hide intro text and status info
 opt.shortmess:append("I")
@@ -233,11 +237,15 @@ opt.number = true
 opt.signcolumn = "auto"
 opt.cursorline = true
 
-cmd[[
-au!
-au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-au WinLeave * setlocal nocursorline
-]]
+vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"}, {
+  pattern = "*",
+  callback = function() opt.cursorline = true end,
+})
+
+vim.api.nvim_create_autocmd("WinLeave", {
+  pattern = "*",
+  callback = function() opt.cursorline = false end,
+})
 
 -- set window title in supported terminals
 opt.title = true
@@ -257,13 +265,16 @@ opt.sidescrolloff = 16
 opt.pumheight = 10
 
 -- highlight on yank
-cmd("autocmd TextYankPost * silent! lua vim.highlight.on_yank({ on_visual = false })")
+vim.api.nvim_create_autocmd("TextYankPost", {
+  pattern = "*",
+  command = "silent! lua vim.highlight.on_yank({ on_visual = false })",
+})
 
 -- nvim tree
 g.nvim_tree_add_trailing = 1
 g.nvim_tree_group_empty = 1
 
-map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
+keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
 -- treesitter syntax highlight
 require("nvim-treesitter.configs").setup({
@@ -301,24 +312,44 @@ require("gitsigns").setup({
 
 
 -- terminal mode
-cmd[[
-augroup terminal
-  autocmd!
-  autocmd TermOpen * startinsert
-  autocmd TermLeave * stopinsert
-  autocmd BufWinEnter,WinEnter term://* startinsert
-  autocmd TermOpen * :set nonumber nocursorline signcolumn=no
-  autocmd TermClose * :bd
-augroup END
-]]
+local group = vim.api.nvim_create_augroup("Terminal", {})
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = group,
+  pattern = "*",
+  command = "startinsert",
+})
+
+vim.api.nvim_create_autocmd("TermLeave", {
+  group = group,
+  pattern = "*",
+  command = "stopinsert",
+})
+
+vim.api.nvim_create_autocmd({"BufWinEnter","WinEnter"}, {
+  group = group,
+  pattern = "term://*",
+  command = "startinsert",
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = group,
+  pattern = "*",
+  command = ":set nonumber nocursorline signcolumn=no",
+})
+
+vim.api.nvim_create_autocmd("TermClose", {
+  group = group,
+  pattern = "*",
+  command = ":bd",
+})
 
 -- allow for window commands in the terminal, at the cost of <c-w>
 -- requiring two presses when desired
-map("t", "<c-w>", "<c-\\><c-n><c-w>")
+keymap.set("t", "<c-w>", "<c-\\><c-n><c-w>")
 
 -- <esc> will send <esc> to running process, so use <c-q> to access
 -- normal mode in the terminal buffer (not commonly needed)
-map("t", "<c-q>", "<c-\\><c-n>")
+keymap.set("t", "<c-q>", "<c-\\><c-n>")
 
 opt.fillchars:append({ eob = " " })
 
@@ -337,35 +368,44 @@ opt.ignorecase = true
 opt.smartcase = true
 
 -- disable auto-comment on o and O and enter
-cmd([[
-augroup formatoptions
-  autocmd!
-  autocmd BufEnter * setlocal formatoptions -=o formatoptions -=r
-augroup END
-]])
+group = vim.api.nvim_create_augroup("formatoptions", {})
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = group,
+  pattern = "*",
+  command = "setlocal formatoptions -=o formatoptions -=r",
+})
 
-function _G.strip_trailing_whitespace()
-  local l = vim.fn.line(".")
-  local c = vim.fn.col(".")
-  cmd([[:%s/\s\+$//e]])
-  vim.fn.cursor({l, c})
-end
-cmd("autocmd BufWritePre * :call v:lua.strip_trailing_whitespace()")
+-- strip trailing whitespace on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local l = vim.fn.line(".")
+    local c = vim.fn.col(".")
+    vim.cmd([[:%s/\s\+$//e]])
+    vim.fn.cursor({l, c})
+  end,
+})
 
 -- Autoload buffers when modified outside
 -- From: https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
-cmd([[autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif]])
-cmd([[autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None]])
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHoldI"}, {
+  pattern = "*",
+  command = "if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif",
+})
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  pattern = "*",
+  command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+})
 
 -- vim-sneak
 g["sneak#label"] = 1
 g["sneak#s_next"] = 0
 g["sneak#absolute_dir"] = 1
 
-map("n", "f", "<plug>Sneak_f", { noremap = false })
-map("n", "F", "<plug>Sneak_F", { noremap = false })
-map("n", "t", "<plug>Sneak_t", { noremap = false })
-map("n", "T", "<plug>Sneak_T", { noremap = false })
+keymap.set("n", "f", "<plug>Sneak_f", { remap = true })
+keymap.set("n", "F", "<plug>Sneak_F", { remap = true })
+keymap.set("n", "t", "<plug>Sneak_t", { remap = true })
+keymap.set("n", "T", "<plug>Sneak_T", { remap = true })
 
 -- spellchecking
 opt.spelllang = "en_us"
@@ -378,84 +418,88 @@ opt.lazyredraw = false
 --
 
 -- Allow moving through wrapped lines like a normal person
-map("n", "j", "gj")
-map("n", "k", "gk")
+keymap.set("n", "j", "gj")
+keymap.set("n", "k", "gk")
 
 -- disable annoying Ex mode by moving macro recording to Q
-map("n", "Q", "q")
-map("v", "Q", "q")
-map("x", "Q", "q")
+keymap.set("n", "Q", "q")
+keymap.set("v", "Q", "q")
+keymap.set("x", "Q", "q")
 
 -- remove command-line window mappings. Use <c-f> from : / or ? modes
 -- to view the history if desired.
-map("n", "q", "<nop>")
-map("n", "q:", "<nop>")
-map("n", "q/", "<nop>")
-map("n", "q?", "<nop>")
-map("x", "q", "<nop>")
-map("x", "q:", "<nop>")
-map("x", "q/", "<nop>")
-map("x", "q?", "<nop>")
+keymap.set("n", "q", "<nop>")
+keymap.set("n", "q:", "<nop>")
+keymap.set("n", "q/", "<nop>")
+keymap.set("n", "q?", "<nop>")
+keymap.set("x", "q", "<nop>")
+keymap.set("x", "q:", "<nop>")
+keymap.set("x", "q/", "<nop>")
+keymap.set("x", "q?", "<nop>")
 
 -- close help buffers with q
-cmd("autocmd FileType help noremap <buffer> <nowait> q :q<cr>")
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "help",
+  callback = function()
+  end,
+})
 
 -- swap caret and zero for beginning of line
-map("n", "0", "^")
-map("n", "^", "0")
-map("v", "0", "^")
-map("v", "^", "0")
-map("o", "0", "^")
-map("o", "^", "0")
+keymap.set("n", "0", "^")
+keymap.set("n", "^", "0")
+keymap.set("v", "0", "^")
+keymap.set("v", "^", "0")
+keymap.set("o", "0", "^")
+keymap.set("o", "^", "0")
 
-map("n", "<a-j>", "]e==", { noremap = false })
-map("n", "<a-k>", "[e==", { noremap = false })
-map("v", "<a-j>", "]egv=gv", { noremap = false })
-map("v", "<a-k>", "[egv=gv", { noremap = false })
+keymap.set("n", "<a-j>", "]e==", { remap = true })
+keymap.set("n", "<a-k>", "[e==", { remap = true })
+keymap.set("v", "<a-j>", "]egv=gv", { remap = true })
+keymap.set("v", "<a-k>", "[egv=gv", { remap = true })
 
-map("n", "gr", "<cmd>TroubleToggle lsp_references<cr>")
-map("n", "<leader>x", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>")
+keymap.set("n", "gr", "<cmd>TroubleToggle lsp_references<cr>")
+keymap.set("n", "<leader>x", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>")
 
-map("n", "n", "'Nn'[v:searchforward] . 'zz'", { expr = true })
-map("n", "N", "'nN'[v:searchforward] . 'zz'", { expr = true })
+keymap.set("n", "n", "'Nn'[v:searchforward] . 'zz'", { expr = true })
+keymap.set("n", "N", "'nN'[v:searchforward] . 'zz'", { expr = true })
 
 -- undo breakpoints when inserting
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", "!", "!<c-g>u")
-map("i", "?", "?<c-g>u")
-map("i", ";", ";<c-g>u")
+keymap.set("i", ",", ",<c-g>u")
+keymap.set("i", ".", ".<c-g>u")
+keymap.set("i", "!", "!<c-g>u")
+keymap.set("i", "?", "?<c-g>u")
+keymap.set("i", ";", ";<c-g>u")
 
-map("n", "<leader>lf", vim.lsp.buf.formatting)
-map("v", "<leader>lf", vim.lsp.buf.range_formatting)
+keymap.set("n", "<leader>lf", vim.lsp.buf.formatting)
+keymap.set("v", "<leader>lf", vim.lsp.buf.range_formatting)
 
 -- disable arrows in insert mode
-map("i", "<up>", "<nop>")
-map("i", "<down>", "<nop>")
-map("i", "<left>", "<nop>")
-map("i", "<right>", "<nop>")
+keymap.set("i", "<up>", "<nop>")
+keymap.set("i", "<down>", "<nop>")
+keymap.set("i", "<left>", "<nop>")
+keymap.set("i", "<right>", "<nop>")
 
 -- tab to visit previous buffer
-map("n", "<tab>", "<c-^>")
+keymap.set("n", "<tab>", "<c-^>")
 
 -- commenting
-map("n", "<c-_>", "gcc", { noremap = false })
-map("v", "<c-_>", "gc", { noremap = false })
+keymap.set("n", "<c-_>", "gcc", { remap = true })
+keymap.set("v", "<c-_>", "gc", { remap = true })
 
 -- omnifunc (c-f like fish shell completion)
-map("i", "<c-f>", "<c-x><c-o>")
+keymap.set("i", "<c-f>", "<c-x><c-o>")
 
-map("i", "<c-bs>", "<c-w>")
-map("i", "<c-h>", "<c-w>")
-map("c", "<c-bs>", "<c-w>", { noremap = false })
-map("c", "<c-h>", "<c-w>", { noremap = false })
+keymap.set("i", "<c-bs>", "<c-w>")
+keymap.set("i", "<c-h>", "<c-w>")
+keymap.set("c", "<c-bs>", "<c-w>", { remap = true })
+keymap.set("c", "<c-h>", "<c-w>", { remap = true })
 
 -- much more convenient to switch to last window
-map("n", "<c-w>w", "<c-w><c-p>")
-map("n", "<c-w><c-w>", "<c-w><c-p>")
+keymap.set("n", "<c-w>w", "<c-w><c-p>")
+keymap.set("n", "<c-w><c-w>", "<c-w><c-p>")
 
 --
 -- configs in separate files
 --
 
-require("lsp")
+require("user.lsp")

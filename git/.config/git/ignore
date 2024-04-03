@@ -2,3 +2,4 @@
 *.swp
 compile_commands.json
 .nvim/
+.DS_Store

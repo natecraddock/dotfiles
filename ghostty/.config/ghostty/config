@@ -1,0 +1,19 @@
+font-family = JetBrains Mono
+font-family-bold = JetBrains Mono
+
+font-size = 12
+adjust-cell-height = -1
+adjust-cell-width = -1
+
+window-height = 32
+window-width = 140
+
+theme = ayu_light
+
+shell-integration = none
+cursor-style = block
+cursor-style-blink = false
+
+macos-option-as-alt = true
+
+confirm-close-surface = false

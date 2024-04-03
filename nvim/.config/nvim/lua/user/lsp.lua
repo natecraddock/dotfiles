@@ -65,21 +65,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 -- enabled Servers
-local luadev = require("lua-dev").setup({
-  lspconfig = {
-    cmd = {"lua-language-server"},
-    settings = {
-      Lua = {
-        completion = {
-          showWord = "Disable",
-          callSnippet = "Disable",
-          keywordSnippet = "Disable",
-        },
-      },
-    },
-  },
-})
-
 local servers = {
   {
     name = "clangd",
@@ -91,7 +76,7 @@ local servers = {
     name = "pyright",
   },
   {
-    name = "sumneko_lua",
+    name = "lus_ls",
     settings = luadev,
   },
   {

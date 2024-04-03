@@ -14,7 +14,6 @@ telescope.setup({
     },
     previewer = true,
     sorting_strategy = "ascending",
-    winblend = 8,
   }),
 
   pickers = {

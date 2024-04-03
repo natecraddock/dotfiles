@@ -6,7 +6,7 @@ local cmd = vim.cmd
 local opt = vim.opt
 local g = vim.g
 
-opt.termguicolors = true
+-- opt.termguicolors = true
 
 -- g.gruvbox_contrast_dark = "soft"
 g.gruvbox_sign_column = "bg0"

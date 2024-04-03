@@ -32,45 +32,7 @@ require("packer").startup(function(use)
 
   -- appearance related
   use "goolord/alpha-nvim"
-  use "gruvbox-community/gruvbox"
-  use {
-    "kyazdani42/nvim-tree.lua",
-    event = "VimEnter",
-    config = function()
-      require("nvim-tree").setup({
-        hijack_cursor = true,
-        update_cwd = true,
-
-        actions = {
-          open_file = {
-            quit_on_open = true,
-            window_picker = {
-              enable = false,
-            }
-          }
-        },
-      })
-    end,
-  }
-  use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-  use { "nvim-treesitter/playground" }
-  use "psliwka/vim-smoothie"
-  use {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup()
-    end,
-  }
   use "kyazdani42/nvim-web-devicons"
-  use {
-    "folke/trouble.nvim",
-    requires = {"nvim-lua/plenary.nvim"},
-    cmd = "Trouble",
-    config = function()
-      require("trouble").setup()
-    end,
-  }
-  use "folke/todo-comments.nvim"
   use { "lewis6991/gitsigns.nvim" }
 
   -- telescope
@@ -79,7 +41,8 @@ require("packer").startup(function(use)
     event = "VimEnter",
     module = "telescope",
     requires = {
-      "~/dev/nvim/telescope-zf-native.nvim/"
+      "~/code/nvim/telescope-zf-native.nvim/",
+      "https://github.com/nvim-lua/plenary.nvim",
     },
     config = function()
       require("user.telescope")
@@ -90,40 +53,30 @@ require("packer").startup(function(use)
   use "tpope/vim-sleuth"
   use "tpope/vim-surround"
   use "tpope/vim-unimpaired"
-  use "tpope/vim-repeat"
   use "tpope/vim-commentary"
   use "farmergreg/vim-lastplace"
   use "justinmk/vim-sneak"
 
   -- lsp
-  use "neovim/nvim-lspconfig"
-  use "folke/lsp-colors.nvim"
-  use "jose-elias-alvarez/null-ls.nvim"
 
   -- plugin development
-  use "folke/lua-dev.nvim"
 
   use "ratfactor/zf.vim"
 
-  use "Mofiqul/adwaita.nvim"
-
-  use "~/dev/nvim/subtle.nvim/"
-
   use {
-    "~/dev/nvim/workspaces.nvim/",
+    "~/code/nvim/workspaces.nvim/",
     config = function()
       require("workspaces").setup({
+        cd_type = "tab",
+        auto_open = true,
         hooks = {
           -- hooks run before change directory
           open_pre = {
             -- save current session state if currently recording
             "SessionsStop",
 
-            -- stop any active lsp servers
-            "LspStop",
-
             -- delete all buffers (does not save changes)
-            "silent %bdelete!",
+            -- "silent %bdelete!",
           },
 
           -- hooks run after change directory
@@ -142,10 +95,10 @@ require("packer").startup(function(use)
   }
 
   use {
-    "~/dev/nvim/sessions.nvim/",
+    "~/code/nvim/sessions.nvim/",
     config = function()
       require("sessions").setup({
-        session_filepath = ".nvim/session"
+        session_filepath = ".nvim/session",
       })
     end
   }
@@ -221,11 +174,14 @@ dashboard.section.footer.opts.hl = "SpecialKey"
 
 alpha.setup(dashboard.opts)
 
+
+vim.cmd [[ colorscheme shine ]]
+
 -- statusline
 require("user.statusline")
 
 -- init colorscheme and get colors
-require("user.colorscheme")
+-- require("user.colorscheme")
 
 -- hide intro text and status info
 opt.shortmess:append("I")
@@ -273,32 +229,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- nvim tree
 g.nvim_tree_add_trailing = 1
 g.nvim_tree_group_empty = 1
-
-keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
-
--- treesitter syntax highlight
-require("nvim-treesitter.configs").setup({
-  highlight = {
-    enable = true,
-  },
-})
-
--- todo comments
--- TODO: take colors from theme
-require("todo-comments").setup({
-  signs = false,
-  highlight = {
-    keyword = "fg",
-    after = "",
-  },
-  colors = {
-    info = "#83a598",
-    error = "#dc2626",
-    warning = "#fbbf24",
-    hint = "#83a598",
-    default = "#7c3aed",
-  }
-})
 
 -- gitsigns
 require("gitsigns").setup({
@@ -470,9 +400,6 @@ keymap.set("i", "!", "!<c-g>u")
 keymap.set("i", "?", "?<c-g>u")
 keymap.set("i", ";", ";<c-g>u")
 
-keymap.set("n", "<leader>lf", vim.lsp.buf.formatting)
-keymap.set("v", "<leader>lf", vim.lsp.buf.range_formatting)
-
 -- disable arrows in insert mode
 keymap.set("i", "<up>", "<nop>")
 keymap.set("i", "<down>", "<nop>")
@@ -502,4 +429,4 @@ keymap.set("n", "<c-w><c-w>", "<c-w><c-p>")
 -- configs in separate files
 --
 
-require("user.lsp")
+-- require("user.lsp")

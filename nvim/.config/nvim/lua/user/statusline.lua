@@ -1,5 +1,3 @@
-local colors = require("user.colorscheme").colors
-
 local mode_map = {
   n = "NORMAL",
   i = "INSERT",

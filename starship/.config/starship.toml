@@ -38,9 +38,9 @@ disabled = true
 disabled = false
 format = "([$all_status$ahead_behind]($style) )"
 style = "red"
-ahead = ""
-behind = ""
-diverged = ""
+ahead = "^"
+behind = "v"
+diverged = "|"
 
 # directory styling
 [directory]
@@ -88,4 +88,7 @@ disabled = true
 disabled = true
 
 [ruby]
+disabled = true
+
+[c]
 disabled = true
